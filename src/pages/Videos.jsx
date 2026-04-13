@@ -1,7 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Search, Filter, BookOpen } from 'lucide-react';
 import { collection, query, onSnapshot } from 'firebase/firestore';
 import { db } from '../services/firebase';
+
+// ==========================================
+// NUEVO: RENDERIZADOR INTELIGENTE DE EMBEDS
+// Soluciona TikTok, Instagram, Twitter, etc.
+// ==========================================
+const SmartEmbed = ({ html }) => {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    
+    // 1. Insertamos el HTML (el blockquote de TikTok)
+    containerRef.current.innerHTML = html;
+    
+    // 2. Buscamos si el embed trajo un script (ej. embed.js de TikTok)
+    const scripts = containerRef.current.querySelectorAll('script');
+    
+    // 3. Forzamos a React/Navegador a ejecutar esos scripts
+    scripts.forEach(script => {
+      const newScript = document.createElement('script');
+      if (script.src) {
+        newScript.src = script.src;
+        newScript.async = true;
+      } else {
+        newScript.innerHTML = script.innerHTML;
+      }
+      document.body.appendChild(newScript);
+    });
+  }, [html]);
+
+  return (
+    <div 
+      ref={containerRef} 
+      className="w-full overflow-hidden flex items-center justify-center bg-black/5 rounded-t-xl" 
+      style={{ minHeight: '350px' }} 
+    />
+  );
+};
+// ==========================================
+
 
 export default function Videos() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -10,7 +50,6 @@ export default function Videos() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Usamos una colección estándar para tu proyecto local
     const videosRef = collection(db, 'videos_mrexcel');
     const q = query(videosRef);
 
@@ -81,9 +120,12 @@ export default function Videos() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {filteredVideos.map(video => (
-                <div key={video.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col">
-                  <div className="w-full bg-gray-50 flex items-center justify-center p-4" style={{ minHeight: '300px' }} dangerouslySetInnerHTML={{ __html: video.embedCode }} />
-                  <div className="p-5 flex-1 flex flex-col">
+                <div key={video.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col hover:shadow-md transition-shadow">
+                  
+                  {/* AQUÍ ESTÁ EL CAMBIO: Usamos el renderizador inteligente */}
+                  <SmartEmbed html={video.embedCode} />
+                  
+                  <div className="p-5 flex-1 flex flex-col border-t border-gray-50">
                     <div className="flex justify-between items-start mb-2">
                       <h4 className="text-lg font-bold text-gray-900 line-clamp-2">{video.title}</h4>
                       {video.category && <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 ml-2 whitespace-nowrap">{video.category}</span>}
