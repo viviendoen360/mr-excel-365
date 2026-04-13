@@ -2,19 +2,20 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
-// IMPORTANTE: Reemplaza esto con los datos de tu proyecto en Firebase Console
+// Aquí vas a poner TUS 6 claves reales entre las comillas
 const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_PROYECTO.firebaseapp.com",
-  projectId: "TU_PROYECTO",
-  storageBucket: "TU_PROYECTO.appspot.com",
-  messagingSenderId: "TUS_DATOS",
-  appId: "TUS_DATOS"
+  apiKey: "AIzaSyD-fqFt7tBkYoFXecjUVI1RsAej_jDwANY",
+  authDomain: "mr-excel-365.firebaseapp.com",
+  projectId: "mr-excel-365",
+  storageBucket: "mr-excel-365.firebasestorage.app",
+  messagingSenderId: "711467783844",
+  appId: "1:711467783844:web:571301533e99d49946f831",
+  measurementId: "G-JKG8D9Z138"
 };
 
+// ¡Estas líneas de abajo son súper importantes, no las borres!
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-// Iniciar sesión anónima automáticamente (para que los usuarios puedan ver la base de datos pública)
 signInAnonymously(auth).catch(console.error);

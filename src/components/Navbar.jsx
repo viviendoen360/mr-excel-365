@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Home, Video, Settings, Menu, X } from 'lucide-react';
+import { Home, Video, Settings, Menu, X, User } from 'lucide-react';
 
 export default function Navbar({ currentView, setCurrentView }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -24,6 +24,9 @@ export default function Navbar({ currentView, setCurrentView }) {
             <button onClick={() => setCurrentView('videos')} className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${currentView === 'videos' ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50'}`}>
               <Video className="w-4 h-4 mr-1" /> Videos
             </button>
+            <button onClick={() => setCurrentView('contacto')} className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${currentView === 'contacto' ? 'text-emerald-600 bg-emerald-50' : 'text-gray-600 hover:text-emerald-600 hover:bg-gray-50'}`}>
+              <User className="w-4 h-4 mr-1" /> Contacto
+            </button>
             <button onClick={() => setCurrentView('admin')} className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${currentView === 'admin' ? 'text-gray-900 bg-gray-100' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}>
               <Settings className="w-4 h-4 mr-1" /> Admin
             </button>
@@ -42,6 +45,7 @@ export default function Navbar({ currentView, setCurrentView }) {
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <button onClick={() => { setCurrentView('home'); setIsMobileMenuOpen(false); }} className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-emerald-600 hover:bg-emerald-50">Inicio</button>
             <button onClick={() => { setCurrentView('videos'); setIsMobileMenuOpen(false); }} className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50">Videos</button>
+            <button onClick={() => { setCurrentView('contacto'); setIsMobileMenuOpen(false); }} className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-emerald-600 hover:bg-emerald-50">Contacto</button>
             <button onClick={() => { setCurrentView('admin'); setIsMobileMenuOpen(false); }} className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Administrador</button>
           </div>
         </div>
