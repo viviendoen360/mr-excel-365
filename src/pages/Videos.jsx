@@ -71,10 +71,20 @@ export default function Videos() {
 
   const categories = ['Todas', ...new Set(videos.map(v => v.category).filter(Boolean))];
 
+ // Buscador Inteligente: Separa la búsqueda por palabras
+  const searchWords = searchTerm.toLowerCase().split(' ').filter(word => word.trim() !== '');
+
   const filteredVideos = videos.filter(video => {
-    const matchesSearch = (video.title?.toLowerCase() || '').includes(searchTerm.toLowerCase()) || 
-                          (video.keywords?.toLowerCase() || '').includes(searchTerm.toLowerCase());
+    const title = (video.title || '').toLowerCase();
+    const keywords = (video.keywords || '').toLowerCase();
+
+    // Revisa que CADA palabra que escribiste esté en el título O en las keywords
+    const matchesSearch = searchWords.length === 0 || searchWords.every(word => 
+      title.includes(word) || keywords.includes(word)
+    );
+    
     const matchesCategory = selectedCategory === 'Todas' || video.category === selectedCategory;
+    
     return matchesSearch && matchesCategory;
   });
 
