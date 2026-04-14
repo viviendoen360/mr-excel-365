@@ -14,23 +14,3 @@ export default function Privacidad() {
     </div>
   );
 }
-```
-
-#### Paso B: Registrar la nueva ruta en `App.jsx`
-No olvides importar `Privacidad` y añadir la condición `{currentView === 'privacidad' && <Privacidad />}` en tu componente principal.
-
-#### Paso C: El Pie de Página (Footer) legal
-Actualiza el pie de página en **`App.jsx`** para que la gente pueda ver el enlace legal:
-
-```javascript
-<footer className="bg-white border-t border-gray-200 mt-12 py-8">
-  <div className="max-w-7xl mx-auto px-4 text-center">
-    <p className="text-gray-500 text-sm mb-2">© 2026 Mr.Excel365. Todos los derechos reservados.</p>
-    <button 
-      onClick={() => setCurrentView('privacidad')} 
-      className="text-xs text-blue-600 hover:underline"
-    >
-      Política de Privacidad (LOPDP Ecuador)
-    </button>
-  </div>
-</footer>
